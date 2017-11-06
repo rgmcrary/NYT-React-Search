@@ -1,38 +1,16 @@
 import React, { Component } from 'react';
-import DeleteBtn from '../../components/DeleteBtn';
 import { List, ListItem } from '../../components/List';
 import { Col, Row } from '../../components/Grid';
-import { Input, FormBtn } from '../../components/Form';
-
+import { FormBtn } from '../../components/Form';
+import Main from '../Main';
 import API from '../../utils/API';
 
 class Saved extends Component {
-  state = {
-    articles: []
-  };
-
-  componentDidMount() {
-    this.loadSavedArticles();
-  }
-
-  // Loads all articles and sets them to this.state.articles
-  loadSavedArticles = () => {
-    API.getSavedArticles()
-      .then(res =>
-        this.setState({
-          articles: res.data,
-          title: '',
-          startYear: '',
-          endYear: ''
-        })
-      )
-      .catch(err => console.log(err));
-  };
 
   // Deletes an article from the database with a given id, then reloads articles from the db
   deleteArticle = id => {
     API.deleteArticle(id)
-      .then(res => this.loadSavedArticles())
+      .then(res => this.props.loadSaved())
       .catch(err => console.log(err));
   };
 
@@ -55,9 +33,9 @@ class Saved extends Component {
             </div>
 
             {/* This main panel will hold each of the resulting articles */}
-            {this.state.articles.length ? (
+            {this.props.articles.length ? (
               <List>
-                {this.state.articles.map(article => {
+                {this.props.articles.map(article => {
                   return (
                     <ListItem key={article._id} style={{ height: '67px' }}>
                       <a href={article.url} target="_blank">
