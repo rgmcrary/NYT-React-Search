@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Container } from "../../components/Grid";
-import Search from "../../components/Search";
-import Saved from '../../components/Saved';
+import Search from "../Search";
+import Saved from '../Saved';
+
 
 class Main extends Component {
 
@@ -9,7 +10,7 @@ class Main extends Component {
     return (
       <Container fluid>
 
-        <Search />
+        <Search ref="Saved" />
         <Saved />
 
       </Container>
