@@ -3,7 +3,7 @@ import { List, ListItem } from '../../components/List';
 import { Col, Row } from '../../components/Grid';
 import { Input, FormBtn } from '../../components/Form';
 import API from '../../utils/API';
-import Main from '../Main';
+
 
 
 class Search extends Component {
