@@ -1,19 +1,26 @@
-import React from "react";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './Nav.css';
 
-const Nav = () =>
-  <nav className="navbar navbar-inverse navbar-top">
+const Nav = () => (
+  <nav className="navbar navbar-default navbar-top">
     <div className="container-fluid">
-      <div className="navbar-header">
-        <button type="button" className="collapsed navbar-toggle">
-          <span className="sr-only">Toggle navigation</span>
-          <span className="icon-bar" /> <span className="icon-bar" />
-          <span className="icon-bar" />
-        </button>
-        <a href="/" className="navbar-brand">
-          React Reading List
-        </a>
-      </div>
+      {/* <div className="navbar-header"> */}
+      <ul class="nav navbar-nav">
+        <li>
+          <Link to={'/'} className="pageName">
+            Search For Articles
+          </Link>
+        </li>
+        <li>
+          <Link to={'/saved'} className="pageName">
+            Saved Article List
+          </Link>
+        </li>
+      </ul>
+      {/* </div> */}
     </div>
-  </nav>;
+  </nav>
+);
 
 export default Nav;
