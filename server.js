@@ -1,99 +1,59 @@
-
 // Dependencies
-var express = require('express');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var path = require('path');
-var Article = require('./models/article');
-var request = require('request');
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const path = require('path');
+const Article = require('./models/article');
+const request = require('request');
+const routes = require('./routes');
+const app = express();
+const PORT = process.env.PORT || 3001;
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
 
 // Initialize Express
-var app = express();
-var PORT = process.env.PORT || 3001;
+
 
 // Use body parser with our app
-
-app.use(
-  bodyParser.urlencoded({
-    extended: false
-  })
-);
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'client/build')));
+// Serve up static assets
+// app.use(express.static("client/build"));
+
+// Add routes, both API and view
+app.use(routes);
+
+// Set up promises with mongoose
+mongoose.Promise = global.Promise;
 
 // Database configuration with mongoose
 mongoose.connect(
-  'mongodb://heroku_w3v57k0l:nja21grj4djleb825m2qub8lk1@ds249415.mlab.com:49415/heroku_w3v57k0l'
+  process.env.MONGODB_URI ||
+    'mongodb://heroku_w3v57k0l:nja21grj4djleb825m2qub8lk1@ds249415.mlab.com:49415/heroku_w3v57k0l',
+  {
+    useMongoClient: true
+  }
 );
-var db = mongoose.connection;
+
+const db = mongoose.connection;
 
 // Show any mongoose errors
-db.on('error', function(error) {
+db.on('error', error => {
   console.log('Mongoose Error: ', error);
 });
 
 // Once logged in to the db through mongoose, log a success message
-db.once('open', function() {
+db.once('open', () => {
   console.log('Mongoose connection successful.');
 });
 
-// Routes
-// ======
 
-// Main route
-// app.get('/', function(req, res) {
-//   res.sendFile(path.join(__dirname, 'client/build/index.html'));
-// });
-
-
-// Save an Article
-app.post('/api/articles/:id', function(req, res) {
-  Article.findOneAndUpdate(
-    { _id: req.params.id },
-    { $set: { saved: true } },
-    function(error, doc) {
-      if (error) {
-        console.error(error);
-      } else {
-        res.json(doc);
-      }
-    }
-  );
-});
-
-// View Saved Articles
-app.get('/api/articles', function(req, res) {
-  var hbsObj = {};
-  Article.find({ saved: true }, function(error, doc) {
-    if (error) {
-      res.json(error);
-    } else {
-      res.json(doc);
-    }
-  });
-});
-
-// Delete a saved article
-app.put('/api/articles/:id', function(req, res) {
-  var articleId = req.params.id;
-  Article.remove({ _id: articleId }, function(error, doc) {
-    if (error) {
-      console.error(error);
-    } else {
-      res.json(doc);
-    }
-  });
-});
-
-
-
-
-// Listen on port 3000
-app.listen(PORT, function() {
-  console.log('App listening on PORT ' + PORT);
+// Start the API server
+app.listen(PORT, () => {
+  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
 
 module.exports = app;
