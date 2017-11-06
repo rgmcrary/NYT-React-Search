@@ -3,6 +3,7 @@ import { List, ListItem } from '../../components/List';
 import { Col, Row } from '../../components/Grid';
 import { Input, FormBtn } from '../../components/Form';
 import API from '../../utils/API';
+import Main from '../Main';
 
 
 class Search extends Component {
@@ -31,23 +32,13 @@ class Search extends Component {
             endYear: ''
           })
         )
-        .then(console.log(this.state))
         .catch(err => console.log(err));
     }
   };
 
-  handleSaveArticle = (title, url) => {
-
-    API.saveArticle({ title: title, url: url })
-      .then(res =>
-        this.setState({
-          articles: res.data,
-          title: '',
-          startYear: '',
-          endYear: ''
-        })
-      )
-      // .then (this.refs.Saved.loadSavedArticles())
+  handleSaveArticle = (title, url, id) => {
+    API.saveArticle({ title: title, url: url, articleId: id })
+      .then(res => this.props.loadSaved())
       .catch(err => console.log(err));
   };
 
@@ -139,7 +130,8 @@ class Search extends Component {
                           onClick={() =>
                             this.handleSaveArticle(
                               article.headline.main,
-                              article.web_url
+                              article.web_url,
+                              article._id
                             )}
                           style={{
                             padding: 0,
