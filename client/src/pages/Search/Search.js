@@ -3,8 +3,7 @@ import { List, ListItem } from '../../components/List';
 import { Col, Row } from '../../components/Grid';
 import { Input, FormBtn } from '../../components/Form';
 import API from '../../utils/API';
-
-
+import './Search.css';
 
 class Search extends Component {
   state = {
@@ -119,7 +118,7 @@ class Search extends Component {
               </div>
 
               {this.state.articles.length ? (
-                <List>
+                <List className="searchResults">
                   {this.state.articles.slice(0, 5).map(article => {
                     return (
                       <ListItem key={article._id} style={{ height: '67px' }}>
@@ -148,9 +147,6 @@ class Search extends Component {
               ) : (
                 <h3 style={{ marginLeft: 15 }}>No Results to Display</h3>
               )}
-
-              {/* This main panel will hold each of the resulting articles */}
-              <div className="panel-body" id="well-section" />
             </div>
           </Col>
         </Row>

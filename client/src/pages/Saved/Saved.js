@@ -3,6 +3,7 @@ import { List, ListItem } from '../../components/List';
 import { Col, Row } from '../../components/Grid';
 import { FormBtn } from '../../components/Form';
 import API from '../../utils/API';
+import './Saved.css';
 
 class Saved extends Component {
   state = {
@@ -31,7 +32,8 @@ class Saved extends Component {
   };
 
   render() {
-    return (// This row will handle all of the saved articles
+    return (
+      // This row will handle all of the saved articles
       <Row>
         <Col size="sm-12">
           <br />
@@ -48,27 +50,35 @@ class Saved extends Component {
             </div>
 
             {/* This main panel will hold each of the resulting articles */}
-            {this.state.savedArticles.length ? <List>
+            {this.state.savedArticles.length ? (
+              <List className="savedResults">
                 {this.state.savedArticles.map(article => {
-                  return <ListItem key={article._id} style={{ height: '67px' }}>
+                  return (
+                    <ListItem key={article._id} style={{ height: '67px' }}>
                       <a href={article.url} target="_blank">
                         <strong>{article.title}</strong>
                       </a>
-                      <FormBtn onClick={() => this.deleteArticle(article._id)} style={{ padding: 0, position: 'absolute', right: '20px' }}>
+                      <FormBtn
+                        onClick={() => this.deleteArticle(article._id)}
+                        style={{
+                          padding: 0,
+                          position: 'absolute',
+                          right: '20px'
+                        }}
+                      >
                         Delete
                       </FormBtn>
-                    </ListItem>;
+                    </ListItem>
+                  );
                 })}
-              </List> : <h3 style={{ marginLeft: 15 }}>
-                No Results to Display
-              </h3>}
-
-            {/* This main panel will hold each of the resulting articles */}
-            <div className="panel-body" id="well-section" />
+              </List>
+            ) : (
+              <h3 style={{ marginLeft: 15 }}>No Results to Display</h3>
+            )}
           </div>
         </Col>
       </Row>
-    )
+    );
   }
 }
 
