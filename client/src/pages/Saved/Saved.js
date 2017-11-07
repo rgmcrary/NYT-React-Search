@@ -3,7 +3,7 @@ import { List, ListItem } from '../../components/List';
 import { Col, Row } from '../../components/Grid';
 import { FormBtn } from '../../components/Form';
 import API from '../../utils/API';
-import './Saved.css';
+
 
 class Saved extends Component {
   state = {
