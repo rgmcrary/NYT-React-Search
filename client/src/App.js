@@ -6,15 +6,15 @@ import Search from './pages/Search';
 import Nav from './components/Nav';
 
 const App = () => (
-  <Router>
-    <Container fluid>
-      <Nav />
-      <Switch>
-        <Route path="/:saved" component={Saved} />
-        <Route path="/" component={Search} />
-      </Switch>
-    </Container>
-  </Router>
+    <Router>
+        <Container fluid>
+            <Nav/>
+            <Switch>
+                <Route path="/:saved" component={Saved}/>
+                <Route path="/" component={Search}/>
+            </Switch>
+        </Container>
+    </Router>
 );
 
 export default App;
